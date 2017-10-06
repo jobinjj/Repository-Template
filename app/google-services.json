@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "446013014020",
+    "firebase_url": "https://test-6b6d5.firebaseio.com",
+    "project_id": "test-6b6d5",
+    "storage_bucket": "test-6b6d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446013014020:android:b0b30c5fd1498805",
+        "android_client_info": {
+          "package_name": "com.jobin.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446013014020-vqgg0g4qq4benrpiueof8pf0bf4dpbvr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBE0IoRf4ZQAAjO84J_m5ADc3CAgH1Zi64"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

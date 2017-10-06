@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Test</string>
+    <string name="refresh">refresh</string>
+    <string name="name">name</string>
+    <string name="message">message</string>
+    <string name="upload">upload</string>
+</resources>

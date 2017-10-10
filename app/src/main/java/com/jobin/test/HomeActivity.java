@@ -15,8 +15,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import static android.widget.Toast.makeText;
+
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    SharedPreferences pref;
+    String s,name;
     SharedPreferences prefuserdetails;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +28,11 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         prefuserdetails = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         String name = prefuserdetails.getString("Name",null);
-        Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        s = pref.getString("s", null);
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
 
 
 

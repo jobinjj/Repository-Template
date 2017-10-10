@@ -88,6 +88,7 @@ public class Register extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 showFileChooser();
+                upload.setText("change");
             }
         });
         register.setOnClickListener(new OnClickListener() {
@@ -103,7 +104,6 @@ public class Register extends AppCompatActivity{
         final String name = username.getText().toString().trim();
         final String pass = password.getText().toString().trim();
         final String image_url = getStringImage(bitmap);
-        Toast.makeText(this, image_url, Toast.LENGTH_SHORT).show();
 
         class UploadImage extends AsyncTask<Void,Void,String>{
             private ProgressDialog loading;
@@ -117,7 +117,10 @@ public class Register extends AppCompatActivity{
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 loading.dismiss();
-                Toast.makeText(Register.this,s,Toast.LENGTH_LONG).show();
+
+                    Toast.makeText(Register.this,s,Toast.LENGTH_LONG).show();
+
+
             }
 
             @Override

@@ -112,8 +112,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             editor.putString("Name",name);
             editor.putString("gmail",email);
             editor.putString("image_url",image_url);
+            editor.apply();
+
+            String name = prefuserdetails.getString("Name", null);
 
             Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
+
             startActivity(intent);
             finish();
         }

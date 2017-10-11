@@ -1,15 +1,23 @@
 package com.jobin.test;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,10 +30,21 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     public static final String KEY_USERNAME = "username";
+    String str_response;
     public static final String KEY_PASSWORD = "pass";
     public static final String UPLOAD_URL = "http://techpakka.com/android/user_details.php";
     String name,str_username,str_password;
@@ -33,7 +52,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     String image_url;
     Button btn_login;
     EditText edt_username,edt_password;
-    SharedPreferences prefuserdetails;
+    SharedPreferences pref;
     SharedPreferences.Editor editor;
 
 
@@ -46,15 +65,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefuserdetails = getApplicationContext().getSharedPreferences("user_details", 0);
-        editor = prefuserdetails.edit();
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
         setContentView(R.layout.activity_login);
         edt_username = (EditText) findViewById(R.id.username);
         edt_password = (EditText) findViewById(R.id.password);
         btn_login = (Button) findViewById(R.id.login);
 
-        editor.putString("s","check");
-        editor.apply();
+
         btn_login.setOnClickListener(new View.OnClickListener() {
              @Override
               public void onClick(View view) {
@@ -136,8 +154,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             editor.putString("image_url",image_url);
             editor.apply();
 
-            String name = prefuserdetails.getString("Name", null);
-
             Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
 
             startActivity(intent);
@@ -169,24 +185,68 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             protected void onPreExecute() {
                 super.onPreExecute();
                 loading = ProgressDialog.show(LoginActivity.this,"Please wait...","checking",false,false);
+                loading.setCanceledOnTouchOutside(true);
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                Toast.makeText(LoginActivity.this, s, Toast.LENGTH_SHORT).show();
-               Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
-                loading.dismiss();
+                Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
 
-                startActivity(intent);
+                editor.putString("response",s);
+                editor.apply();
+                str_response = pref.getString("response","hello").trim();
+
+
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+                CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordin);
+             if (networkInfo != null && networkInfo.isConnected()){
+
+                }
+                else {
+                    Snackbar snackbar = Snackbar
+                            .make(coordinatorLayout, "No network connection", Snackbar.LENGTH_LONG)
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    recreate();
+                                }
+                            });
+                    snackbar.setActionTextColor(Color.RED);
+                    snackbar.show();
+                }
+                if (str_response.equalsIgnoreCase("succesfull")){
+                    editor.putBoolean("loggedin",true);
+                    editor.apply();
+                    Toast.makeText(LoginActivity.this, str_response, Toast.LENGTH_SHORT).show();
+                    loading.dismiss();
+                    startActivity(intent);
+                    finish();
+
+                }
+                else {
+                    editor.putBoolean("loggedin",false);
+                    editor.apply();
+                    loading.dismiss();
+                    Toast.makeText(LoginActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                }
+
+
+
+
+
             }
 
             @Override
             protected String doInBackground(Void... Voids) {
+
+
                 RequestHandler rh = new RequestHandler();
                 HashMap<String,String> param = new HashMap<>();
                 param.put(KEY_PASSWORD,str_password);
                 param.put(KEY_USERNAME,str_username);
+
 
                 return rh.sendPostRequest(UPLOAD_URL,param);
             }
@@ -194,4 +254,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Login l = new Login();
         l.execute();
     }
+
+
 }

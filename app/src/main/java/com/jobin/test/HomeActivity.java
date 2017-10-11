@@ -13,26 +13,34 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static android.widget.Toast.makeText;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    String str_response;
     SharedPreferences pref;
+    SharedPreferences.Editor editor;
     String s,name;
-    SharedPreferences prefuserdetails;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        prefuserdetails = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-        String name = prefuserdetails.getString("Name",null);
+        TextView response = (TextView) findViewById(R.id.response);
+        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
+
+        editor.putString("check","hai");
+        editor.apply();
+
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-        s = pref.getString("s", null);
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
 
 
 
@@ -96,10 +104,19 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        }else if (id == R.id.nav_logout) {
+            editor.clear().apply();
+            editor.putBoolean("loggedin",false);
+            editor.apply();
+            Toast.makeText(this, "sign out", Toast.LENGTH_SHORT).show();
+            finish();
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

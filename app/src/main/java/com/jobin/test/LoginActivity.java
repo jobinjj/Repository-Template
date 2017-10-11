@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public static final String KEY_USERNAME = "username";
     String str_response;
     public static final String KEY_PASSWORD = "pass";
-    public static final String UPLOAD_URL = "http://techpakka.com/android/user_details.php";
+    public static final String UPLOAD_URL = "http://techpakka.com/android/user_login.php";
     String name,str_username,str_password;
     String email;
     String image_url;
@@ -54,7 +54,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     EditText edt_username,edt_password;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-
 
     private SignInButton signInButton;
     GoogleApiClient googleApiClient;
@@ -88,6 +87,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
+                editor.putBoolean("loggedin",false);
+                editor.apply();
                 startActivity(intent);
             }
         });
@@ -217,6 +218,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     snackbar.show();
                 }
                 if (str_response.equalsIgnoreCase("succesfull")){
+                    editor.putString("username",str_username);
                     editor.putBoolean("loggedin",true);
                     editor.apply();
                     Toast.makeText(LoginActivity.this, str_response, Toast.LENGTH_SHORT).show();

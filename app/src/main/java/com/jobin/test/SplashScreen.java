@@ -8,11 +8,13 @@ import android.os.Bundle;
 
 public class SplashScreen extends AppCompatActivity {
     SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+        editor = pref.edit();
 
         setContentView(R.layout.activity_splash_screen);
 
@@ -21,7 +23,7 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
                 Intent i1 = new Intent(SplashScreen.this,HomeActivity.class);
                 Intent i2 = new Intent(SplashScreen.this,LoginActivity.class);
-                Boolean isLoggedin = pref.getBoolean("loggedin",true);
+                Boolean isLoggedin = pref.getBoolean("loggedin",false);
                 if (isLoggedin){
                     finish();
                    startActivity(i1);

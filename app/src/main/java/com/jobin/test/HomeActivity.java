@@ -16,28 +16,26 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static android.widget.Toast.makeText;
+
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    String str_response;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    String s,name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         TextView response = (TextView) findViewById(R.id.response);
+
         pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
         editor = pref.edit();
 
         editor.putString("check","hai");
         editor.apply();
-
-
-
+        String username = pref.getString("username","");
+        response.setText(username);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -105,13 +103,18 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }else if (id == R.id.nav_logout) {
-            editor.clear().apply();
-            editor.putBoolean("loggedin",false);
-            editor.apply();
-            Toast.makeText(this, "sign out", Toast.LENGTH_SHORT).show();
-            finish();
-        }
 
+            Boolean isLoggedIn = pref.getBoolean("loggedin",true);
+            if (isLoggedIn){
+                Toast.makeText(this, "sign out", Toast.LENGTH_SHORT).show();
+                editor.clear().apply();
+                editor.apply();
+                finish();
+            }
+            else{
+                Toast.makeText(this, "not sign in", Toast.LENGTH_SHORT).show();
+            }
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

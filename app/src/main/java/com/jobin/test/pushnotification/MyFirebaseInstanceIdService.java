@@ -11,7 +11,7 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService{
     public void onTokenRefresh() {
         String recent_token = FirebaseInstanceId.getInstance().getToken();
         Log.d(REG_TOKEN,recent_token);
-        Toast.makeText(this, recent_token, Toast.LENGTH_SHORT).show();
+
     }
 
 }

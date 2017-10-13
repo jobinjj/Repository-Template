@@ -43,6 +43,7 @@ import java.net.URLConnection;
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+    private ProgressDialog loading;
     public static final String KEY_USERNAME = "username";
     String str_response;
     public static final String KEY_PASSWORD = "pass";
@@ -180,7 +181,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void Login(){
 
         class Login extends AsyncTask<Void,Void,String>{
-            private ProgressDialog loading;
 
             @Override
             protected void onPreExecute() {
@@ -192,51 +192,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
-
-                editor.putString("response",s);
-                editor.apply();
-                str_response = pref.getString("response","hello").trim();
 
 
-                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-                CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordin);
-             if (networkInfo != null && networkInfo.isConnected()){
-
-                }
-                else {
-                    Snackbar snackbar = Snackbar
-                            .make(coordinatorLayout, "No network connection", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    recreate();
-                                }
-                            });
-                    snackbar.setActionTextColor(Color.RED);
-                    snackbar.show();
-                }
-                if (str_response.equalsIgnoreCase("succesfull")){
-                    editor.putString("username",str_username);
-                    editor.putBoolean("loggedin",true);
-                    editor.apply();
-                    Toast.makeText(LoginActivity.this, str_response, Toast.LENGTH_SHORT).show();
-                    loading.dismiss();
-                    startActivity(intent);
-                    finish();
-
-                }
-                else {
-                    editor.putBoolean("loggedin",false);
-                    editor.apply();
-                    loading.dismiss();
-                    Toast.makeText(LoginActivity.this, "failed", Toast.LENGTH_SHORT).show();
-                }
-
-
-
-
+                checkLoggedIn(s);
 
             }
 
@@ -255,6 +213,49 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
         Login l = new Login();
         l.execute();
+    }
+
+    public  void checkLoggedIn(String response){
+        Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
+        editor.putString("response",response);
+        editor.apply();
+        str_response = pref.getString("response","hello").trim();
+
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordin);
+        if (networkInfo != null && networkInfo.isConnected()){
+
+        }
+        else {
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "No network connection", Snackbar.LENGTH_LONG)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            recreate();
+                        }
+                    });
+            snackbar.setActionTextColor(Color.RED);
+            snackbar.show();
+        }
+        if (str_response.equalsIgnoreCase("succesfull")){
+            editor.putString("username",str_username);
+            editor.putBoolean("loggedin",true);
+            editor.apply();
+            Toast.makeText(LoginActivity.this, str_response, Toast.LENGTH_SHORT).show();
+            loading.dismiss();
+            startActivity(intent);
+            finish();
+
+        }
+        else {
+            editor.putBoolean("loggedin",false);
+            editor.apply();
+            loading.dismiss();
+            Toast.makeText(LoginActivity.this, "failed", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

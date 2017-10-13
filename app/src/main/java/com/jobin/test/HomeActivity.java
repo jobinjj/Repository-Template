@@ -1,11 +1,14 @@
 package com.jobin.test;
 
+import android.app.ActivityOptions;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -37,6 +40,7 @@ public class HomeActivity extends AppCompatActivity
     Data data;
     ArrayList<Data> List = new ArrayList<>();
     String username;
+    String sharedimage,sharedtext;
     String profile_name,profile_image;
     private static String KEY_USERNAME = "username";
     TextView txt_profile_name,nav_name;
@@ -53,6 +57,24 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         initViews();
         fetchData();
+        nav_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeActivity.this, ProfileActivity.class);
+
+                View sharedView = nav_image;
+                String transitionName = getString(R.string.blue);
+                String transitiontxtName = getString(R.string.texttransform);
+                Pair<View, String> p1 = Pair.create((View)nav_image, transitionName);
+                Pair<View, String> p2 = Pair.create((View)nav_name, transitiontxtName);
+
+                ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(HomeActivity.this,p1,p2);
+                i.putExtra("imageurl",sharedimage);
+                i.putExtra("sharedtext",sharedtext);
+                startActivity(i, transitionActivityOptions.toBundle());
+            }
+        });
+
 
     }
 
@@ -181,6 +203,8 @@ public class HomeActivity extends AppCompatActivity
 
                                 nav_name.setText(data2.getName());
                                 nav_image.setImageUrl(data2.getImg_url(),imageLoader);
+                                sharedimage = data2.getImg_url();
+                                sharedtext = data2.getName();
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -193,7 +217,7 @@ public class HomeActivity extends AppCompatActivity
             }
             else Toast.makeText(this, "no network connection", Toast.LENGTH_SHORT).show();
         }
-        
+
     }
 
 

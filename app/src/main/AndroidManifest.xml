@@ -58,13 +58,11 @@
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme" />
-        <activity android:name=".LoginActivity">
-
-        </activity>
+        <activity android:name=".LoginActivity"></activity>
         <activity
             android:name=".Register"
             android:label="@string/title_activity_register" />
-        <activity android:name=".SharedpreferenceActivity"></activity>
+        <activity android:name=".SharedpreferenceActivity" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -72,6 +70,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>

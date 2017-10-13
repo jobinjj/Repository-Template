@@ -56,13 +56,14 @@ import static com.jobin.test.R.id.image;
 
 
 public class Register extends AppCompatActivity{
-    EditText username,password;
+    EditText username,password,ed_email;
     ImageView imageView;
     Button register,upload;
     private Bitmap bitmap;
     public static final String KEY_NAME = "username";
     public static final String KEY_PASSWORD = "pass";
     public static final String KEY_IMAGE = "image";
+    public static final String KEY_EMAIL = "email";
     public static final int PICK_IMAGE_REQUEST = 1;
     public static final String UPLOAD_URL = "https://techpakka.com/android/user_registeration.php";
     @Override
@@ -81,6 +82,7 @@ public class Register extends AppCompatActivity{
         });
 
         username = (EditText) findViewById(R.id.username);
+        ed_email = (EditText) findViewById(R.id.email);
         password = (EditText)findViewById(R.id.password);
         register = (Button) findViewById(R.id.register);
         upload = (Button) findViewById(R.id.upload);
@@ -102,6 +104,7 @@ public class Register extends AppCompatActivity{
 
     public void uploadImage(){
         final String name = username.getText().toString().trim();
+        final String email = ed_email.getText().toString().trim();
         final String pass = password.getText().toString().trim();
         final String image_url = getStringImage(bitmap);
 
@@ -130,6 +133,7 @@ public class Register extends AppCompatActivity{
                 param.put(KEY_PASSWORD,pass);
                 param.put(KEY_NAME,name);
                 param.put(KEY_IMAGE,image_url);
+                param.put(KEY_EMAIL,email);
 
                 return rh.sendPostRequest(UPLOAD_URL, param);
             }

@@ -36,4 +36,7 @@
     <string name="back">back</string>
     <string name="regiser">Regiser</string>
     <string name="upload_image">Upload image</string>
+    <string name="blue">blue_name</string>
+    <string name="texttransform">texttransform</string>
+    <string name="email_example_com">email@example.com</string>
 </resources>

@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.jobin.test.profile.LoginActivity;
+
 public class SplashScreen extends AppCompatActivity {
     SharedPreferences pref;
     SharedPreferences.Editor editor;

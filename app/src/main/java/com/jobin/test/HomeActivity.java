@@ -27,6 +27,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.NetworkImageView;
+import com.jobin.test.AdminPanel.AdminEnquiry;
+import com.jobin.test.profile.ProfileActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +42,7 @@ public class HomeActivity extends AppCompatActivity
     Data data;
     ArrayList<Data> List = new ArrayList<>();
     String username;
+    Button btn_refresh;
     String sharedimage,sharedtext;
     String profile_name,profile_image;
     private static String KEY_USERNAME = "username";
@@ -49,7 +52,7 @@ public class HomeActivity extends AppCompatActivity
     ProgressDialog progress;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    Button btn_fetch;
+    Button btn_fetch,test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +78,19 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-
+        btn_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recreate();
+            }
+        });
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this,Test.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initViews() {
@@ -84,6 +99,10 @@ public class HomeActivity extends AppCompatActivity
         editor.putString("check","hai");
         editor.apply();
         username = pref.getString("username","");
+
+        btn_refresh = (Button) findViewById(R.id.btn_refresh);
+        test = (Button) findViewById(R.id.test);
+
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -100,6 +119,7 @@ public class HomeActivity extends AppCompatActivity
         View hView =  navigationView.getHeaderView(0);
         nav_image = (NetworkImageView) hView.findViewById(R.id.nav_image);
         nav_name = (TextView) hView.findViewById(R.id.nav_name);
+
     }
 
     @Override
@@ -150,7 +170,10 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_enquiry) {
+
+          Intent intent = new Intent(HomeActivity.this, AdminEnquiry.class);
+            startActivity(intent);
 
         }else if (id == R.id.nav_logout) {
 
@@ -182,7 +205,7 @@ public class HomeActivity extends AppCompatActivity
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected()){
 
-                JsonArrayRequest request = new JsonArrayRequest(UPLOAD_URL + "username=" + username,
+                JsonArrayRequest request = new JsonArrayRequest(UPLOAD_URL + "username=" + username + "&type=" + "select",
                         new Response.Listener<JSONArray>() {
                             @Override
                             public void onResponse(JSONArray response) {
@@ -209,7 +232,7 @@ public class HomeActivity extends AppCompatActivity
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        progress.dismiss();
                     }
                 });
                 AppController.getInstance().addToRequestQueue(request);
@@ -222,29 +245,6 @@ public class HomeActivity extends AppCompatActivity
 
 
 
-    private class Data{
-        String name;
-        String img_url;
 
-        private Data(){
-
-        }
-
-        private String getName() {
-            return name;
-        }
-
-        private void setName(String name) {
-            this.name = name;
-        }
-
-        private String getImg_url() {
-            return img_url;
-        }
-
-        private void setImg_url(String img_url) {
-            this.img_url = img_url;
-        }
-    }
 
 }

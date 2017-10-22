@@ -1,4 +1,5 @@
 <resources>
+    <string name="msg">Please enable all permissions</string>
     <string name="app_name">Test</string>
     <string name="change">change</string>
     <string name="refresh">refresh</string>
@@ -39,4 +40,7 @@
     <string name="blue">blue_name</string>
     <string name="texttransform">texttransform</string>
     <string name="email_example_com">email@example.com</string>
+    <string name="enquiry_message">Enquiry message</string>
+    <string name="example_gmail_com">example@gmail.com</string>
+    <string name="send">Send</string>
 </resources>

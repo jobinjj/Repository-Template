@@ -1,58 +1,30 @@
-package com.jobin.test;
+package com.jobin.test.profile;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
 import android.util.Base64;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.disklrucache.DiskLruCache;
+import com.jobin.test.R;
+import com.jobin.test.RequestHandler;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-import static android.Manifest.permission.READ_CONTACTS;
-import static com.google.android.gms.internal.zzapf.bit;
-import static com.google.android.gms.internal.zznk.fj;
-import static com.jobin.test.MainActivity.KEY_NAME;
-import static com.jobin.test.MainActivity.KEY_TEXT;
-import static com.jobin.test.R.id.editText;
-import static com.jobin.test.R.id.editText2;
-import static com.jobin.test.R.id.image;
 
 
 public class Register extends AppCompatActivity{
@@ -120,10 +92,11 @@ public class Register extends AppCompatActivity{
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 loading.dismiss();
-
-                    Toast.makeText(Register.this,s,Toast.LENGTH_LONG).show();
-
-
+                String str_response = s.trim();
+                Toast.makeText(Register.this, s, Toast.LENGTH_SHORT).show();
+                if (str_response.equals("Registered")){
+                    finish();
+                }
             }
 
             @Override

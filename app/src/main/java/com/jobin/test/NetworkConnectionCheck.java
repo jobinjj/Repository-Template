@@ -15,7 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class NetworkConnectioCheck extends AppCompatActivity {
+public class NetworkConnectionCheck extends AppCompatActivity {
     String link = "https://www.techpakka.com";
 
 HttpURLConnection conn;

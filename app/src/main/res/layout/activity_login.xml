@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jobin.test.LoginActivity">
+    tools:context="com.jobin.test.profile.LoginActivity">
 
     <Button
         android:id="@+id/skip"

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -30,6 +31,7 @@ public class AdminEnquiry extends AppCompatActivity {
     String str_gmail,str_message;
     ConnectivityManager connectiviyManager;
     NetworkInfo netInfo;
+    ImageView img_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class AdminEnquiry extends AppCompatActivity {
         connectiviyManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         netInfo = connectiviyManager.getActiveNetworkInfo();
         setContentView(R.layout.activity_admin_enquiry);
+
         intiViews();
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +92,13 @@ public class AdminEnquiry extends AppCompatActivity {
         ed_gmail = (EditText) findViewById(R.id.ed_gmail);
         ed_message = (EditText) findViewById(R.id.ed_message);
         send = (Button) findViewById(R.id.send);
+        img_back = (ImageView) findViewById(R.id.img_back);
+        img_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
 
     }

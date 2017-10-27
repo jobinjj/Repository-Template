@@ -23,17 +23,9 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i1 = new Intent(SplashScreen.this,HomeActivity.class);
-                Intent i2 = new Intent(SplashScreen.this,LoginActivity.class);
-                Boolean isLoggedin = pref.getBoolean("loggedin",false);
-                if (isLoggedin){
-                    finish();
-                   startActivity(i1);
-                }
-                else {
-                    finish();
-                    startActivity(i2);
-                }
+                Intent i1 = new Intent(SplashScreen.this,WelcomeActivity.class);
+                startActivity(i1);
+                finish();
             }
         }, 3000);
     }

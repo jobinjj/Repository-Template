@@ -1,6 +1,9 @@
 package com.jobin.test;
 
 import android.app.ActivityOptions;
+
+
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +11,10 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Pair;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -42,7 +49,9 @@ public class HomeActivity extends AppCompatActivity
     Data data;
     ArrayList<Data> List = new ArrayList<>();
     String username;
-    Button btn_refresh;
+    FragmentManager fragmentManager;
+    Fragment fragment;
+    BottomNavigationView bottomNavigation;
     String sharedimage,sharedtext;
     String profile_name,profile_image;
     private static String KEY_USERNAME = "username";
@@ -52,7 +61,7 @@ public class HomeActivity extends AppCompatActivity
     ProgressDialog progress;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    Button btn_fetch,test;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,19 +87,7 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-        btn_refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                recreate();
-            }
-        });
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this,Test.class);
-                startActivity(intent);
-            }
-        });
+
     }
 
     private void initViews() {
@@ -100,8 +97,6 @@ public class HomeActivity extends AppCompatActivity
         editor.apply();
         username = pref.getString("username","");
 
-        btn_refresh = (Button) findViewById(R.id.btn_refresh);
-        test = (Button) findViewById(R.id.test);
 
 
 
@@ -119,6 +114,33 @@ public class HomeActivity extends AppCompatActivity
         View hView =  navigationView.getHeaderView(0);
         nav_image = (NetworkImageView) hView.findViewById(R.id.nav_image);
         nav_name = (TextView) hView.findViewById(R.id.nav_name);
+        bottomNavigation = (BottomNavigationView)findViewById(R.id.bottom_navigation);
+        bottomNavigation.inflateMenu(R.menu.bottom_menu);
+        fragmentManager = getSupportFragmentManager();
+        fragment = new FirstFragment();
+        final android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_container, fragment).commit();
+
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                switch (id){
+                    case R.id.menu_home:
+                        fragment = new FirstFragment();
+                        break;
+                    case R.id.menu_notifications:
+                        fragment = new SecondFragment();
+                        break;
+                    case R.id.menu_search:
+                        fragment = new ThirdFragment();
+                        break;
+                }
+                final android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.main_container, fragment).commit();
+                return true;
+            }
+        });
 
     }
 

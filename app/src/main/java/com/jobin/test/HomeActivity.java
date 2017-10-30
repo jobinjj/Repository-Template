@@ -3,7 +3,6 @@ package com.jobin.test;
 import android.app.ActivityOptions;
 
 
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Pair;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -25,7 +25,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +34,10 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.NetworkImageView;
 import com.jobin.test.AdminPanel.AdminEnquiry;
+import com.jobin.test.navigation.FirstFragment;
+import com.jobin.test.navigation.FourthFragment;
+import com.jobin.test.navigation.SecondFragment;
+import com.jobin.test.navigation.ThirdFragment;
 import com.jobin.test.profile.ProfileActivity;
 
 import org.json.JSONArray;
@@ -44,7 +47,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
     Data data;
     ArrayList<Data> List = new ArrayList<>();
@@ -60,6 +63,7 @@ public class HomeActivity extends AppCompatActivity
     private static String UPLOAD_URL = "http://techpakka.com/android/user_details.php?";
     ProgressDialog progress;
     SharedPreferences pref;
+    FragmentTransaction transaction;
     SharedPreferences.Editor editor;
 
 
@@ -118,8 +122,9 @@ public class HomeActivity extends AppCompatActivity
         bottomNavigation.inflateMenu(R.menu.bottom_menu);
         fragmentManager = getSupportFragmentManager();
         fragment = new FirstFragment();
-        final android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.main_container, fragment).commit();
+        transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_container,fragment).commit();
+
 
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -127,7 +132,8 @@ public class HomeActivity extends AppCompatActivity
                 int id = item.getItemId();
                 switch (id){
                     case R.id.menu_home:
-                        fragment = new FirstFragment();
+                        Intent intent = new Intent(HomeActivity.this,HomeActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.menu_notifications:
                         fragment = new SecondFragment();
@@ -135,14 +141,18 @@ public class HomeActivity extends AppCompatActivity
                     case R.id.menu_search:
                         fragment = new ThirdFragment();
                         break;
+                    case R.id.menu_news:
+                        fragment = new FourthFragment();
+                        break;
                 }
-                final android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.main_container, fragment).commit();
                 return true;
             }
         });
 
     }
+
 
     @Override
     public void onBackPressed() {

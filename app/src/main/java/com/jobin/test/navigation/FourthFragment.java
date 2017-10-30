@@ -1,16 +1,17 @@
-package com.jobin.test;
+package com.jobin.test.navigation;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jobin.test.R;
 
 
-public class FirstFragment extends Fragment {
+public class FourthFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -21,12 +22,12 @@ public class FirstFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public FirstFragment() {
+    public FourthFragment() {
 
     }
 
-    public static FirstFragment newInstance(String param1, String param2) {
-        FirstFragment fragment = new FirstFragment();
+    public static FourthFragment newInstance(String param1, String param2) {
+        FourthFragment fragment = new FourthFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -47,9 +48,10 @@ public class FirstFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_first, container, false);
+        View view = inflater.inflate(R.layout.fragment_fourth, container, false);
         return view;
     }
+
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

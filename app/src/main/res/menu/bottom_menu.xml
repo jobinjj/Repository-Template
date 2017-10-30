@@ -17,4 +17,8 @@
         android:title="notification"
         android:icon="@drawable/ic_notifications_black_24dp" />
 
+    <item
+        android:id="@+id/menu_news"
+        android:title="news"
+        android:icon="@drawable/ic_fiber_new_black_24dp" />
 </menu>

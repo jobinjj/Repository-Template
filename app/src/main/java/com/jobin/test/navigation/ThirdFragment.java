@@ -1,16 +1,17 @@
-package com.jobin.test;
+package com.jobin.test.navigation;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jobin.test.R;
 
 
-public class SecondFragment extends Fragment {
+public class ThirdFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -20,13 +21,13 @@ public class SecondFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public SecondFragment() {
+    public ThirdFragment() {
 
     }
 
 
-    public static SecondFragment newInstance(String param1, String param2) {
-        SecondFragment fragment = new SecondFragment();
+    public static ThirdFragment newInstance(String param1, String param2) {
+        ThirdFragment fragment = new ThirdFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -46,10 +47,10 @@ public class SecondFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_second, container, false);
+        View view = inflater.inflate(R.layout.fragment_third, container, false);
         return view;
     }
+
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -57,23 +58,13 @@ public class SecondFragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
+
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
-
 
     public interface OnFragmentInteractionListener {
 
